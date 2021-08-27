@@ -13,7 +13,7 @@ const Login = (props) => {
 
   useEffect(() => {
     console.log("useEffect Running")
-  })
+  }, [enteredPassword])
 
   useEffect(() => {
 
