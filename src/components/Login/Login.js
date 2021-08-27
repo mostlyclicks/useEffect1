@@ -13,6 +13,10 @@ const Login = (props) => {
 
   useEffect(() => {
     console.log("useEffect Running")
+
+    return () => {
+      console.log('Effect Cleanup')
+    }
   }, [enteredPassword])
 
   useEffect(() => {
