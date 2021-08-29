@@ -16,10 +16,10 @@ const emailReducer = (state, action) => {
 
 const passwordReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
-    return {value: action.val, isValid: action.val.length > 6}
+    return {value: action.val, isValid: action.val.trim().length > 6}
   }
   if (action.type === 'INPUT_BLUR') {
-    return {value: state.value, isValid: state.value.length > 6}
+    return {value: state.value, isValid: state.value.trim().length > 6}
   }
 
   return {value: '', isValid: false}
@@ -35,6 +35,9 @@ const Login = (props) => {
   const [emailState, dispatchEmail] = useReducer(emailReducer, {value: '', isValid: false})
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, {value: '', isValid: false})
 
+  const { isValid: emailIsValid } = emailState
+  const { isValid: passwordIsValid } = passwordState
+
   useEffect(() => {
     console.log("useEffect Running")
 
@@ -48,7 +51,7 @@ const Login = (props) => {
     const identifier = setTimeout(() => {
       console.log('Checking form validity')
       setFormIsValid(
-        emailState.value.includes('@') && passwordState.value.trim().length > 6
+        emailIsValid && passwordIsValid
       )
     }, 500 )
     
@@ -59,7 +62,7 @@ const Login = (props) => {
     }
     
     
-  }, [emailState.value, passwordState.value])
+  }, [emailIsValid, passwordIsValid])
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: 'USER_INPUT', val: event.target.value})
